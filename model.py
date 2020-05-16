@@ -7,13 +7,7 @@ from keras import backend as K
 from keras.models import Model
 from keras.layers import *
 from keras.utils import get_file
-from keras.regularizers import l2
-import tensorflow as tf
 
-from model_blocks import (
-  conv_bn_relu, _conv_bn_relu_x2, 
-  grading_block_conv, conv_dil_block,
-  conv_dil_block_bn)
 
 
 WEIGHTS_PATH_NO_TOP = ('https://github.com/fchollet/deep-learning-models/'

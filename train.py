@@ -14,7 +14,7 @@ from keras.callbacks import (
     CSVLogger,
     ReduceLROnPlateau)
 
-from utils import roll_df
+from data_utils import roll_df
 from data import init_data_grade, grade_gene, gene_wrapper
 from model import buildModel_vgg16
 
@@ -24,7 +24,8 @@ BATCH_SIZE = 32
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--train_name", type=str, help="Training/Experiment name")
-parser.add_argument("--annotation_file", type=str, help="Name of xlsx file containing annotations")
+parser.add_argument("--img_path", type=str, help="Path to train/test images")
+parser.add_argument("--anno_file", type=str, help="Name of xlsx file containing annotations")
 parser.add_argument("--patch_size", type=int, help="Height/Width Image Crop Size", default=320)
 parser.add_argument("--batch_size", type=str, help="Training batch size", default=32)
 args = parser.parse_args()
@@ -39,7 +40,7 @@ config.gpu_options.allow_growth = True
 
         
 def train_():
-    trn_data, val_data, tst_data = init_data_grade(args.annotation_file) 
+    trn_data, val_data, tst_data = init_data_grade(args.anno_file) 
     for fold in range(3):
         print('-'*50)
         print('...Initializing classifier network...')
@@ -76,15 +77,17 @@ def train_():
 
         train_gene = grade_gene(
             data_df=trn_data, 
+            img_path=args.img_path,
             batch_size=BATCH_SIZE, 
-            train=True, 
-            target_size=(PATCH_SIZE, PATCH_SIZE))
+            target_size=(PATCH_SIZE, PATCH_SIZE),
+            train=True)
 
         val_gene = grade_gene(
             data_df=val_data, 
+            img_path=args.img_path,
             batch_size=BATCH_SIZE, 
-            train=False, 
-            target_size=(PATCH_SIZE, PATCH_SIZE))
+            target_size=(PATCH_SIZE, PATCH_SIZE),
+            train=False)
         
         print('-'*50)
         print('...Fitting model...')

@@ -3,7 +3,7 @@ from keras.utils import Sequence, to_categorical
 import pandas as pd 
 import numpy as np
 
-IMG_PATH = 'Data/CroppedImages'
+
 
 NUMBER = {4: 2, 3: 1, 2: 0}
 LETTER = {'A': 2, 'B': 1, 'C': 0}
@@ -50,7 +50,7 @@ def gene_wrapper(generator):
     for batch_x,batch_y in generator:
         yield (batch_x,[to_categorical(batch_y[:,i], 3) for i in range(3)])
 
-def grade_gene(data_df, batch_size, train, target_size):
+def grade_gene(data_df, img_path, batch_size, train, target_size):
     if train:
         datagen = ImageDataGenerator(
             rotation_range=360,
@@ -65,7 +65,7 @@ def grade_gene(data_df, batch_size, train, target_size):
 
     generator = datagen.flow_from_dataframe(
         dataframe=data_df,
-        directory=IMG_PATH,
+        directory=img_path,
         x_col='Filename',
         y_col=['BE', 'ICM', 'TE'],
         target_size=target_size,

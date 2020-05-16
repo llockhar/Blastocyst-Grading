@@ -15,7 +15,7 @@ from skimage.color import gray2rgb
 
 from data import grade_gene, gene_wrapper, init_data_grade
 from model import buildModel_vgg16
-from utils import roll_df, roll_df_bin
+from data_utils import roll_df
 
 from sklearn.metrics import (
     balanced_accuracy_score, precision_score,
@@ -27,7 +27,8 @@ RETTEL = {2: 'A', 1: 'B', 0: 'C'}
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--train_name", type=str, help="Training/Experiment name")
-parser.add_argument("--annotation_file", type=str, help="Name of xlsx file containing annotations")
+parser.add_argument("--img_path", type=str, help="Path to train/test images")
+parser.add_argument("--anno_file", type=str, help="Name of xlsx file containing annotations")
 parser.add_argument("--patch_size", type=int, help="Height/Width Image Crop Size", default=320)
 parser.add_argument("--batch_size", type=str, help="Training batch size", default=32)
 args = parser.parse_args()
@@ -83,7 +84,7 @@ def visualize_camap(model, fold, test_imgs):
     for img_name in test_imgs:
         print(img_name)
         img_arr = load_img(
-            join(IMG_PATH, img_name), 
+            join(args.img_path, img_name), 
             color_mode='rgb',
             target_size=(PATCH_SIZE, PATCH_SIZE)
         )
@@ -91,7 +92,7 @@ def visualize_camap(model, fold, test_imgs):
         x = np.expand_dims(img_arr, axis=0)
         # x = preprocess_input(x)
 
-        img = imread(join(IMG_PATH, img_name))
+        img = imread(join(args.img_path, img_name))
         img = np.uint8(255 * resize(img, (img_arr.shape[1], img_arr.shape[0])))
 
         preds = model.predict(x)
@@ -121,7 +122,7 @@ def visualize_camap(model, fold, test_imgs):
 
 def test_():
 
-    trn_data, val_data, tst_data = init_data_grade() 
+    trn_data, val_data, tst_data = init_data_grade(args.anno_file) 
     total_preds = None
     total_trues = None
     total_fnames = []
@@ -158,15 +159,12 @@ def test_():
         print('...Evaluating model...')
         print('-'*50)
 
-        batch_size = 64
-        test_steps = tst_data.shape[0] / batch_size
-
         test_gene = grade_gene(
             data_df=tst_data, 
-            batch_size=batch_size, 
-            train=False, 
-            target_size=(PATCH_SIZE, PATCH_SIZE)
-        )
+            img_path=args.img_path,
+            batch_size=BATCH_SIZE, 
+            target_size=(PATCH_SIZE, PATCH_SIZE),
+            train=False)
 
         print('Test dataframe: ', tst_data.head(), tst_data.shape[0])
 
@@ -174,7 +172,9 @@ def test_():
 
         # Prediction/Evaluation
         test_gene.reset()
-        preds = model.predict_generator(gene_wrapper(test_gene), steps=test_steps)
+        preds = model.predict_generator(
+            gene_wrapper(test_gene), 
+            steps=tst_data.shape[0] / BATCH_SIZE)
         y_pred_labels = np.concatenate(
             # (np.array(preds)[0,:,:], np.array(preds)[1,:,:], np.array(preds)[2,:,:]),
             (np.array(preds[0]), np.array(preds[1]), np.array(preds[2])),
@@ -187,11 +187,12 @@ def test_():
                       np.concatenate((total_trues, y_true_labels), axis=0)
         total_fnames += test_gene.filenames
 
-        results = model.evaluate_generator(gene_wrapper(test_gene), steps=test_steps)
+        results = model.evaluate_generator(
+            gene_wrapper(test_gene), 
+            steps=tst_data.shape[0] / BATCH_SIZE)
 
         exp_results = pd.DataFrame.from_dict(
-            {model.metrics_names[i]:[results[i]] for i in range(len(results))}, 
-        )
+            {model.metrics_names[i]:[results[i]] for i in range(len(results))})
         exp_results.to_csv(
                 OUT_PATH + 'fold{}.csv'.format(fold), 
                 index=False)
@@ -202,7 +203,7 @@ def test_():
             test_gene.filenames,
             fold)
 
-        trn_data, val_data, tst_data = roll_df_bin(trn_data, val_data, tst_data, fold)
+        trn_data, val_data, tst_data = roll_df(trn_data, val_data, tst_data, fold)
 
     save_class_results(
         total_trues,
