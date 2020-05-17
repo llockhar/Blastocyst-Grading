@@ -76,9 +76,11 @@ def vgg16_top(input_img, app):
 def grading_block(grade):
     def l(input_layer):
         avg = GlobalAveragePooling2D()(input_layer)
-        dense = Dense(units=32, activation='relu', name='dense_' + grade)(avg)
-        drop = Dropout(rate=0.5, name='drop_' + grade)(dense)
-        out = Dense(3, activation='softmax', name=grade)(drop)
+        dense1 = Dense(units=32, activation='relu', name='dense1_' + grade)(avg)
+        drop1 = Dropout(rate=0.5, name='drop1_' + grade)(dense1)
+        dense2 = Dense(units=32, activation='relu', name='dense2_' + grade)(drop1)
+        drop2 = Dropout(rate=0.5, name='drop2_' + grade)(dense2)
+        out = Dense(3, activation='softmax', name=grade)(drop2)
 
         return out
     return l
