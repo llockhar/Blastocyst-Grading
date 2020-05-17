@@ -31,7 +31,7 @@ Blastocysts (day-5 embryos) are assigned quality grades according to the Gardner
 
 | Blastocyst Components | Gardner Grading System |
 |:---:|:---:|
-| <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/Labeled%20Embryo.png" alt="Blastocyst Components" width="350"/> | <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/BlastocystGrades.png" alt="Gardner Grading System" width="350"/> |
+| <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/Labeled%20Embryo.png" alt="Blastocyst Components" width="350"/> | <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/BlastocystGrades.png" alt="Gardner Grading System" width="400"/> |
 
 ### Network Architecture
 The network has a VGG16 base with 3 output branches, one for each grade. Trainable convolutional kernel weights in the output branches are updated according to their respective label error, and weights in the backbone are updated as an average of all 3 label errors.
