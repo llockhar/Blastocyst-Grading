@@ -19,9 +19,6 @@ from data import init_data_grade, grade_gene, gene_wrapper
 from model import buildModel_vgg16
 
 
-PATCH_SIZE = 320
-BATCH_SIZE = 32
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--train_name", type=str, help="Training/Experiment name")
 parser.add_argument("--img_path", type=str, help="Path to train/test images")
