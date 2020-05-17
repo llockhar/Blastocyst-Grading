@@ -23,7 +23,7 @@ python test.py --train_name experiment_name --img_path path_to_image_directory -
 Testing is performed on 3-folds separately and also the combined set. Class activation maps (CAMs) of each image are saved into a directory and show which areas in the image were active for each grade (e.g. below).
 | Blastocyst Expansion Grade CAM| ICM Grade CAM |
 |:---:|:---:|
-| ![Blastocyst Expansion Grade CAM](https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/CAM_BE.jpg =250x250) | ![ICM Grade CAM](https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/CAM_ICM.jpg =250x250) |
+| <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/CAM_BE.jpg" alt="Blastocyst Expansion Grade CAM" width="250"/> | <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/CAM_ICM.jpg" alt="ICM Grade CAM" width="250"/> |
 
 ## Background
 ### Blastocyst Grading System
@@ -31,10 +31,10 @@ Blastocysts (day-5 embryos) are assigned quality grades according to the Gardner
 
 | Blastocyst Components | Gardner Grading System |
 |:---:|:---:|
-| ![Blastocyst Components](https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/Labeled%20Embryo.png =300x) | ![Gardner Grading System](https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/BlastocystGrades.png) |
+| <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/Labeled%20Embryo.png" alt="Blastocyst Components" width="350"/> | <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/BlastocystGrades.png" alt="Gardner Grading System" width="300"/> |
 
 ### Network Architecture
 The network has a VGG16 base with 3 output branches, one for each grade. Trainable convolutional kernel weights in the output branches are updated according to their respective label error, and weights in the backbone are updated as an average of all 3 label errors.
 
-![Network Diagram](https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/NetworkDiagram.png =400x)
+<img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/NetworkDiagram.png" alt="Network Diagram" width="400"/>
 
