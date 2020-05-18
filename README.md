@@ -1,5 +1,5 @@
 # Blastocyst-Grading
-Keras implementation for the MMSP2019 paper: Multi-Label Classification for Automatic Human Blastocyst Grading with Severely Imbalanced Data [1]
+Official Keras implementation for the MMSP2019 paper: Multi-Label Classification for Automatic Human Blastocyst Grading with Severely Imbalanced Data [1] (https://ieeexplore.ieee.org/abstract/document/8901697).
 
 ## Getting Started
 ### Installation
