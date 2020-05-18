@@ -1,5 +1,5 @@
 # Blastocyst-Grading
-Keras implementation for the MMSP2019 paper: Multi-Label Classification for Automatic Human Blastocyst Grading with Severely Imbalanced Data
+Keras implementation for the MMSP2019 paper: Multi-Label Classification for Automatic Human Blastocyst Grading with Severely Imbalanced Data [1]
 
 ## Getting Started
 ### Installation
@@ -27,7 +27,7 @@ Testing is performed on 3-folds separately and also the combined set. Class acti
 
 ## Background
 ### Blastocyst Grading System
-Blastocysts (day-5 embryos) are assigned quality grades according to the Gardner grading system [1]. This score is used to determine which blastocyst in the treatment cycle batch has the highest likelihood of leading to a successful pregnancy. Below is an image of a blastocyst with labeled components and image artifacts that can interfere with image analysis algorithms. The pre-processing algorithm is available in this [repository](https://github.com/llockhar/Embryo-Image-Pre-processing). On the right is the Gardner grading system with scores present in the dataset.
+Blastocysts (day-5 embryos) are assigned quality grades according to the Gardner grading system [2]. This score is used to determine which blastocyst in the treatment cycle batch has the highest likelihood of leading to a successful pregnancy. Below is an image of a blastocyst with labeled components and image artifacts that can interfere with image analysis algorithms. The pre-processing algorithm is available in this [repository](https://github.com/llockhar/Embryo-Image-Pre-processing). On the right is the Gardner grading system with scores present in the dataset.
 
 | Blastocyst Components | Gardner Grading System |
 |:---:|:---:|
@@ -38,3 +38,5 @@ The network has a VGG16 base with 3 output branches, one for each grade. Trainab
 
 <img src="https://github.com/llockhar/Blastocyst-Grading/blob/master/demoImages/NetworkDiagram.png" alt="Network Diagram" width="400"/>
 
+[1] Lockhart, L., Saeedi, P., Au, J. and Havelock, J., "Multi-Label Classification for Automatic Human Blastocyst Grading with Severely Imbalanced Data." *MMSP*, 2019.
+[2] Gardner, D.K. and Lane, M., “Culture and selection of viable blastocysts: a feasible proposition for human IVF?,” *Human Reproduction Update*, vol. 3, no. 4, pp. 367–382, 07 1997.
